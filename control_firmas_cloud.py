@@ -57,22 +57,26 @@ def variantes_expediente(exp):
         return [exp]
     return [f"{exp}-0", exp]
 
-# -------- BUSCAR ACTUACION (FIX DEFINITIVO) --------
+# -------- BUSCAR ACTUACION (ROBUSTO REAL) --------
 def buscar_actuacion(page, act):
     act_num = act.split("/")[0]
 
-    for _ in range(25):
+    try:
+        page.wait_for_selector("div[role='grid']", timeout=10000)
+    except:
+        return False
+
+    for _ in range(30):
         try:
-            html = page.content()
+            texto = page.inner_text("body")
 
-            if act_num in html:
+            if act_num in texto:
                 return True
-
         except:
             pass
 
-        page.mouse.wheel(0, 1500)
-        time.sleep(0.7)
+        page.mouse.wheel(0, 2000)
+        time.sleep(0.8)
 
     return False
 
@@ -126,8 +130,13 @@ def procesar_expediente(sheet, i, caratula, exp, act):
                 browser.close()
                 return
 
+            # 👉 CLICK EN ACTUACIONES + ESPERA REAL
             page.locator("text=Actuaciones").first.click()
-            page.wait_for_timeout(2000)
+
+            try:
+                page.wait_for_selector("div[role='grid']", timeout=10000)
+            except:
+                time.sleep(3)
 
             if buscar_actuacion(page, act):
                 limpiar_fila(sheet, i)
