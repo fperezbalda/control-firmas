@@ -57,16 +57,19 @@ def variantes_expediente(exp):
         return [exp]
     return [f"{exp}-0", exp]
 
-# -------- BUSCAR --------
+# -------- BUSCAR ACTUACION (MEJORADO CLOUD) --------
 def buscar_actuacion(page, act):
     act_num = act.split("/")[0]
 
-    for _ in range(10):
-        if page.locator(f"text={act_num}").count() > 0:
-            return True
+    for _ in range(25):
+        try:
+            if page.locator(f"text={act_num}").count() > 0:
+                return True
+        except:
+            pass
 
-        page.mouse.wheel(0, 1000)
-        time.sleep(0.4)
+        page.mouse.wheel(0, 1500)
+        time.sleep(0.7)
 
     return False
 
@@ -92,7 +95,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
                 input_box.fill(variante)
                 page.keyboard.press("Enter")
 
-                time.sleep(1)
+                page.wait_for_timeout(2000)
 
                 try:
                     page.locator(f"text={caratula[:30]}").first.click()
@@ -121,7 +124,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
                 return
 
             page.locator("text=Actuaciones").first.click()
-            time.sleep(1)
+            page.wait_for_timeout(2000)
 
             if buscar_actuacion(page, act):
                 limpiar_fila(sheet, i)
