@@ -1,0 +1,25 @@
+name: Control Firmas
+
+on:
+  schedule:
+    - cron: "0 4 * * *"  # 1 AM Argentina
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - run: |
+          pip install -r requirements.txt
+          playwright install
+
+      - run: python control_firmas_cloud.py
+        env:
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
