@@ -57,14 +57,17 @@ def variantes_expediente(exp):
         return [exp]
     return [f"{exp}-0", exp]
 
-# -------- BUSCAR ACTUACION (MEJORADO CLOUD) --------
+# -------- BUSCAR ACTUACION (FIX DEFINITIVO) --------
 def buscar_actuacion(page, act):
     act_num = act.split("/")[0]
 
     for _ in range(25):
         try:
-            if page.locator(f"text={act_num}").count() > 0:
+            html = page.content()
+
+            if act_num in html:
                 return True
+
         except:
             pass
 
@@ -140,7 +143,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
     except Exception as e:
         log(f"Error {exp}: {e}")
 
-# -------- SHEET --------
+# -------- PROCESAR SHEET --------
 def procesar_sheet(url):
     log(f"📄 {url}")
 
