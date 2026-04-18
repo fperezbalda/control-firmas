@@ -29,56 +29,28 @@ creds_dict = json.loads(os.environ["GOOGLE_CREDS"])
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
-# -------- FORMATO --------
-def limpiar_fila(sheet, fila):
-    sheet.update(values=[[""]], range_name=f"F{fila}")
-    sheet.format(f"A{fila}:Z{fila}", {
-        "backgroundColor": {"red": 1, "green": 1, "blue": 1}
-    })
-
-def pintar_verde(sheet, fila):
-    sheet.format(f"F{fila}", {
-        "backgroundColor": {"red": 0, "green": 0.6, "blue": 0}
-    })
-
+# -------- SHEET --------
 def escribir_si(sheet, fila):
     sheet.update(values=[["SI"]], range_name=f"F{fila}")
 
 def escribir_no(sheet, fila):
     sheet.update(values=[["NO"]], range_name=f"F{fila}")
 
-def corregir_expediente(sheet, fila, nuevo_exp):
-    sheet.update(values=[[nuevo_exp]], range_name=f"C{fila}")
+# -------- CAPTURAR ACTUACIONES --------
+def obtener_actuaciones(page):
+    actuaciones = []
 
-# -------- VARIANTES --------
-def variantes_expediente(exp):
-    exp = exp.strip()
-    if "-" in exp:
-        return [exp]
-    return [f"{exp}-0", exp]
-
-# -------- BUSCAR ACTUACION (ROBUSTO REAL) --------
-def buscar_actuacion(page, act):
-    act_num = act.split("/")[0]
-
-    try:
-        page.wait_for_selector("div[role='grid']", timeout=10000)
-    except:
-        return False
-
-    for _ in range(30):
+    def handle_response(response):
         try:
-            texto = page.inner_text("body")
-
-            if act_num in texto:
-                return True
+            if "actuaciones" in response.url.lower():
+                data = response.json()
+                actuaciones.append(data)
         except:
             pass
 
-        page.mouse.wheel(0, 2000)
-        time.sleep(0.8)
+    page.on("response", handle_response)
 
-    return False
+    return actuaciones
 
 # -------- WORKER --------
 def procesar_expediente(sheet, i, caratula, exp, act):
@@ -86,62 +58,45 @@ def procesar_expediente(sheet, i, caratula, exp, act):
         if not act.strip():
             return
 
+        act_num = act.split("/")[0]
+
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page()
 
+            actuaciones_data = obtener_actuaciones(page)
+
             page.goto("https://eje.juscaba.gob.ar/iol-ui/p/inicio")
+
             input_box = page.locator("#inputSearch")
+            input_box.fill(exp)
+            page.keyboard.press("Enter")
 
-            encontrado = False
+            page.wait_for_timeout(2000)
 
-            for variante in variantes_expediente(exp):
-                log(f"🔎 {variante}")
-
-                input_box.fill("")
-                input_box.fill(variante)
-                page.keyboard.press("Enter")
-
-                page.wait_for_timeout(2000)
-
-                try:
-                    page.locator(f"text={caratula[:30]}").first.click()
-                    encontrado = True
-
-                    if variante != exp:
-                        corregir_expediente(sheet, i, variante)
-
-                    break
-                except:
-                    try:
-                        page.locator("div[role='row']").nth(1).click()
-                        encontrado = True
-
-                        if variante != exp:
-                            corregir_expediente(sheet, i, variante)
-
-                        break
-                    except:
-                        continue
-
-            if not encontrado:
+            try:
+                page.locator("div[role='row']").nth(1).click()
+            except:
                 escribir_no(sheet, i)
                 log(f"❌ {exp}")
                 browser.close()
                 return
 
-            # 👉 CLICK EN ACTUACIONES + ESPERA REAL
             page.locator("text=Actuaciones").first.click()
+            page.wait_for_timeout(3000)
 
-            try:
-                page.wait_for_selector("div[role='grid']", timeout=10000)
-            except:
-                time.sleep(3)
+            encontrado = False
 
-            if buscar_actuacion(page, act):
-                limpiar_fila(sheet, i)
+            # 🔥 BUSCAR EN RESPUESTAS API
+            for bloque in actuaciones_data:
+                texto = json.dumps(bloque)
+
+                if act_num in texto:
+                    encontrado = True
+                    break
+
+            if encontrado:
                 escribir_si(sheet, i)
-                pintar_verde(sheet, i)
                 log(f"✔ {exp}")
             else:
                 escribir_no(sheet, i)
@@ -152,7 +107,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
     except Exception as e:
         log(f"Error {exp}: {e}")
 
-# -------- PROCESAR SHEET --------
+# -------- SHEET --------
 def procesar_sheet(url):
     log(f"📄 {url}")
 
