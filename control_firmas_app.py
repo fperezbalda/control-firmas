@@ -28,7 +28,6 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-# 🔥 CREDENCIALES DESDE RAILWAY
 cred_json = os.environ["GOOGLE_CREDENTIALS"]
 creds_dict = json.loads(cred_json)
 
@@ -82,7 +81,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
             return
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(channel="chrome", headless=True)
+            browser = p.chromium.launch(headless=True)
             page = browser.new_page()
 
             page.goto("https://eje.juscaba.gob.ar/iol-ui/p/inicio")
@@ -139,6 +138,8 @@ def procesar_expediente(sheet, i, caratula, exp, act):
             else:
                 escribir_no(sheet, i)
                 log(f"✖ {exp}")
+
+            browser.close()
 
     except Exception as e:
         log(f"Error {exp}: {e}")
