@@ -28,23 +28,10 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-cred_json = r'''
-{
-  "type": "service_account",
-  "project_id": "control-firmas-juzgado",
-  "private_key_id": "47b9080170a17c755bff9750f04d85b66ae5e310",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC5UZYlj6aLQ5u8\nxRzRLKdQOKqGSu7sKCAT0jBE/58B94M8tpENN/72N1ew41yssb26eoyCpAMaeFvX\n1ec1Zih7i2KdbIscNeN47npM5WnyJEhRficM/gY9UFaV3OJRfvpwb/rvcIi7GOiw\n7JViMpJb4ODXJT18wRWIwsOa46tWPXpWoZLElZGL8MVUM9KeWPDD6flwBDb5RPji\nplk4SZv9x2bcaCMsMCBeKLvYq7UWyP2oINy5BfWc6tDaqKbTNDzKFVvyK3zeDXPT\n1pdXX8VCY84i7xUxcPZWP4L0wzm7yi1KVlEdhPu9yfEgnemwzI552qHyLPY3sjQ5\n+BKXg/vHAgMBAAECggEAAgg8Vppwqm5KCD6RG6obBkIuJzLYfovMw5WLz0s4+dM2\nWTVspHHMwJ5yvmR/4P+XTl2G/5e/gPbOQFupdr3GtolyF2UtUViLRLQ4xccY66gs\n3YKTTbfWEa4OhQOFvScLUAL/rsh+d1lv6SDEXUNOCjvju02T6F5QV3jrSYjdmXXR\nAB2dyEYmPyNv5E97oUGNratZ0gQ+Q11DfCt79L+k5UFQP+CMFTrlWR/MqYllLAwm\n5nUXEbTxaC+mB8x/q5W0yTL8duDkkO3MaA0+nJx6kClI6r487JpvTekHBsxntlHZ\nzkuHnTzjpoeBn6MLDzVJkGmeKMpLLnvwP/8SEXQsoQKBgQDr+I1NLGvUktKP5L29\n0S5vmNjAjsy1rxuvfhI+kVkXaAYHlOmAxtxkdwl8LYqT26fPSNeV667GYIvl6hm8\nZQ3CBPvGeUwZH9k5aZe2rRVEUUwjYmQ6D4kfyjaIEPByWisyk6xFN0jUQ4qCqz8z\nG+Q3sbXTIxUBn+ozjQNJhidCxQKBgQDJDGepnHZB+fFu/qUfdk2ORNK1x8i9v6S1\npYoV0dPo9G8k6SuIHX92E9V4L9vFhqaLAjLiil4mSNGKuJAOBaUo/izweVbNAjrg\ndvTJNNOVnJrYVnQtPLs5sH0CjRv6Lj6E34JrkQn3tt4C8v7DFBJVs4mIIgyRDO7s\nwDJE2As9GwKBgFuwS29WOFvz5N9GmTd9ZVa1hFtl4UMjVFWfXgVzwrNmlxkxEn4Y\nRyC+ZDAdHgCP1Cel/Sbi2hl5AEMI8JEUjwD5oL8g+KG2j1hQoEO6A051bGk/XQR2\nbuisUP4T3uoAAVL4sHKApcrcp6BYXAlG6Cl/4s+0jQABnCYFv+Y8u1qlAoGBAK7K\nvC14PFBsD33ioojR/+ea6l7kjSB7R6Ytf/osbUJxkVfT6Ob0TmbII6XUZgw7Xvwo\nMzlF90jtslAa2hN20Prs0QFZXR/rumiAw51S8kl22CESOPtDe7tSN71KFXLTVcOL\n1wXSGYpmUGrb/KZ6At7DsuTKRYauaeMnzgyQkGTVAoGBAOI9jcK0IQI1lE5q2fT6\nDzzb6Ae/rV2XzJ/DFTpgZGVMy2GxoMD7wUhGgjyo4yNP4d4+IsCJjwWI4ALGVD7s\nyWb32Amf4qApmoGUpbYelc/KGwpK7e4CaSN9Tugg9OKwc65aiTLbrE/vipbUBpKm\nqQnKuXt5f49pyov98pTSO1MA\n-----END PRIVATE KEY-----\n",
-  "client_email": "bot-juzgado@control-firmas-juzgado.iam.gserviceaccount.com",
-  "client_id": "111990996372963001151",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bot-juzgado%40control-firmas-juzgado.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
-'''
-
+# 🔥 CREDENCIALES DESDE RAILWAY
+cred_json = os.environ["GOOGLE_CREDENTIALS"]
 creds_dict = json.loads(cred_json)
+
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
