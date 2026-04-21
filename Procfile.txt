@@ -1,0 +1,1 @@
+worker: python control_firmas_app.py
