@@ -1,5 +1,5 @@
 import os
-os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "/ms-playwright"
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "0"
 
 import time
 from concurrent.futures import ThreadPoolExecutor
