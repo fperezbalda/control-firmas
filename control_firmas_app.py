@@ -82,7 +82,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
             return
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(channel="chrome", headless=True)
             page = browser.new_page()
 
             page.goto("https://eje.juscaba.gob.ar/iol-ui/p/inicio")
