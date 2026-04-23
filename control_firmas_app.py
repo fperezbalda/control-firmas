@@ -29,6 +29,10 @@ scope = [
 ]
 
 cred_json = os.environ["GOOGLE_CREDENTIALS"]
+
+# 🔥 ARREGLO CLAVE
+cred_json = cred_json.replace('\\n', '\n')
+
 creds_dict = json.loads(cred_json)
 
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
