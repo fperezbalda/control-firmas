@@ -87,7 +87,6 @@ def procesar_expediente(sheet, i, caratula, exp, act):
             page.goto("https://eje.juscaba.gob.ar/iol-ui/p/inicio")
 
             input_box = page.locator("#inputSearch")
-
             encontrado = False
 
             for variante in variantes_expediente(exp):
@@ -113,11 +112,6 @@ def procesar_expediente(sheet, i, caratula, exp, act):
                     try:
                         page.locator("div[role='row']").nth(1).click()
                         encontrado = True
-
-                        if variante != exp:
-                            log(f"🔧 {exp} → {variante}")
-                            corregir_expediente(sheet, i, variante)
-
                         break
                     except:
                         continue
@@ -125,6 +119,7 @@ def procesar_expediente(sheet, i, caratula, exp, act):
             if not encontrado:
                 escribir_no(sheet, i)
                 log(f"❌ {exp}")
+                browser.close()
                 return
 
             page.locator("text=Actuaciones").first.click()
