@@ -3,12 +3,12 @@ os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "0"
 
 import time
 from concurrent.futures import ThreadPoolExecutor
-import json
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from playwright.sync_api import sync_playwright
 
+# -------- CONFIG --------
 MAX_WORKERS = 4
 MAX_SHEETS = 3
 
@@ -22,16 +22,17 @@ SHEETS_URLS = [
 def log(msg):
     print(msg, flush=True)
 
-# -------- GOOGLE --------
+# -------- GOOGLE (ARCHIVO LOCAL) --------
 scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
 ]
 
-cred_json = os.environ["GOOGLE_CREDENTIALS"]
-creds_dict = json.loads(cred_json)
+creds = ServiceAccountCredentials.from_json_keyfile_name(
+    "credenciales.json",
+    scope
+)
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
 # -------- FORMATO --------
@@ -90,7 +91,6 @@ def procesar_expediente(sheet, i, caratula, exp, act):
             encontrado = False
 
             for variante in variantes_expediente(exp):
-
                 log(f"🔎 {variante}")
 
                 input_box.fill("")
