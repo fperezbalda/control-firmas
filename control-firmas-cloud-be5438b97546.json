@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "control-firmas-cloud",
+  "private_key_id": "be5438b97546635cb44f60323b13fd816a6af3f0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDOmneRrJBcNrFg\nSVh0SOygL7wEiVgNLlAccRQehqqXShzXS+4R1vjKgRF5uL4s66se3WguU4fhFc9n\n+UhCUo4tjV5/OgIZymd2EEUAHUywXThjBst8G2z9s1RhhB3aVoW0rdbfKF7AYknZ\nzuQPNe3wHwWWn1mEnbf/o471uAb1zKclnDKhVJxO7dm69FXThGNlv/Eic6YSDmFV\ni7hyfautjckMOAvPZJiTZGlC2CQSYwhxNBvo+A0wocRfXViSmqmtGiOwWpxYeQB4\nhR6JBxGEi6fQiBGFI9EB5fSoB3L6aexQnPHm2o5PIsybwejI0HbDavDuNynDTvdg\n8ogDv43pAgMBAAECggEADj76dbIHdkRTMMd98O7CWj1QYqOxzZ7e6Ucm0wAILUxv\n9qyGqvY+y3/g25rQijpp30P3FhKucOfXGF1JDUGyChQQawdt86dQQQTYLSzYB+U1\nqSZjy5f8iPXfoKXChTaoG5BNG7Al8HAWlY09jorycDdDZGJygsF5WYhGqEzbNgGZ\n2gwdFl/imogQhxO6O5jLvp7/5LvUbSMSRndEbp7JIijnL6xUgBtrrg1idzUOrucM\nQIb2Gd5NM15zgYRggUUs2CH+4fozKjzC02POWPRUKueKp6aLAL34n+Dh5HQ5WxQ/\n4WlTtiew9vs8cmq5hQmyxpFof+jZqmCuraoDc7R3XQKBgQDwGz9lrG/7HK/+5BUW\nx1O+O9Od3XZJbWNA/T9TbQAUMahtbcix+qAYEG2K7eYYexWoY3HCpgO3WLaDwJDw\nrdkkzqFe96CJ6FoK/i8jhgTv6ebcPquxdN/NNGloSaJFV3ODiWNeUsm4DUqPBeFA\nbCGUSofWlTa1kXP7bBU6KgNNwwKBgQDcR31PVimEVoQnXXURMxtTVoVdFcJv5/Cr\nODQ2AjFMbRu41OcZOcdKNuFP8AXSfYq31AVi5tG37DgiFoGDgIELkIfkne1GeWpp\nqGm1oSLPrObCqjWBPn5JYIU6jCld8QxVw1xouVGGLE5xuQwckGRYHlm5O2kqpoi5\nxSBQamxe4wKBgG8zL1lXU0VpM9lIqLuz9QTVkFw8hNvc3Wrr3rg0cyTnGqoTfi9v\nc1Wxxgnhw/7ygkVKSRVs7ausWlsKhBXzbe2uBO6GoMM96PXOYuaA2yiBm3nFTJ8T\nEdNnwqmZ8J1MsyLoLi0xCltDTJSQlJHRgnu7SM4IrR3KD30RwYL+kikhAoGATM40\neCw/z5/m9l7Uycl7FqTNXXaP1DsYJGs1cTt0ewR0LQ83AQmvXkYia5/yN8GEU7J+\nqkx3BV08+U3FnNd6p1CewWz7ZZ5CJ1MMgMMNg0HzOB7nBwiGOgmIirCCX/oDZgf3\nOaCcN19NfsOZ4H/MLRlwCXEYq0Fj3PpJ2SAyZycCgYEAonw2pI2MZrNWqYgtvox6\nisz4FAQa0/LqnbU8IzYi5RSrzpMUVwTX1ag2ePYVxcN+S6Re79OGJ0y576uetFEe\nQgShINgIKZghkELbkWJCT05T9PjTbJGBKmeq/KQR/UgTumBaXRbQ3N5scr74tFjs\nVhQRHAd7d4Ct2L7Yw0pHN58=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firmas-cloud@control-firmas-cloud.iam.gserviceaccount.com",
+  "client_id": "102458690028612974706",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firmas-cloud%40control-firmas-cloud.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
